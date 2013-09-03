@@ -1,7 +1,7 @@
 Crafty.scene('Game', function() {
 
-  Crafty.viewport.scale(2);
-  
+  //Crafty.viewport.scale(2);
+
 	// set up occupied tiles space
 	this.occupied = new Array(Game.mapGrid.width);
 	for (var i = 0; i < Game.mapGrid.width; i++) {
@@ -58,7 +58,7 @@ Crafty.scene('Game', function() {
 
 Crafty.scene('Victory', function() {
 	Crafty.e('2D, DOM, Text')
-		.attr( {x: 0, y: 0, w: 300} )
+		.attr( {x: -Crafty.viewport.x , y: -Crafty.viewport.y, w: 400, h: 400} )
 		.text('You win: \n\nOne fuckin\' patty...');
 	
 	this.restartGame = function() {

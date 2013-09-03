@@ -46,7 +46,7 @@ Crafty.c('Teleport', {
 Crafty.c('PlayerCharacter', {
 	init: function() {
 		this.requires('Actor, Fourway, Color, Collision')
-			.fourway(4)
+			.fourway(2)
 			.color( 'rgb(20, 75, 40)' )
 			.stopOnSolids()
 			.onHit('Village', this.visitVillage)
