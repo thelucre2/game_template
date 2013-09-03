@@ -25,26 +25,8 @@ Game = {
     Crafty.init(Game.width(), Game.height());
     Crafty.background( 'rgb(249, 223, 125)' );
 
-    Crafty.e('PlayerCharacter').at(5,5);
+    // start the scene (for event emitters?)
+    Crafty.scene('Game');
 
-    // terrain actors
-    var maxVillages = 5;
-    for (var x = 0; x < Game.mapGrid.width; x++) {
-      for (var y = 0; y < Game.mapGrid.height; y++) {
-      	var atEdge = x == 0 || x == Game.mapGrid.width - 1 ||
-      			y ==0 || y == Game.mapGrid.height - 1;
-
-      	if(atEdge) {
-      		// set tree
-      		Crafty.e('Tree').at(x,y);
-      	} else if(Math.random() < 0.06) {
-      		// place a bush
-      		Crafty.e('Bush').at(x,y);
-      	} else if (Math.random() < 0.02 && Crafty('Village').length <= maxVillages) {
-          Crafty.e('Village').at(x, y);
-
-        }
-      }
-    }
   }
 }

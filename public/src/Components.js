@@ -62,6 +62,7 @@ Crafty.c('Village', {
 
 	collect: function() {
 		this.destroy();
+		Crafty.trigger('VillageVisited', this);
 	}
 });
 
