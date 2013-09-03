@@ -23,6 +23,23 @@ Crafty.c('Grid', {
 Crafty.c('Actor', {
 	init: function() {
 		this.requires('2D, Canvas, Grid');
+	},
+
+	to: function(x,y) {
+		this.x = x * Game.mapGrid.tile.width;
+		this.y = y * Game.mapGrid.tile.height;
+	}
+});
+
+Crafty.c('Teleport', {
+	init: function() {
+		this.requires('Actor, Color')
+			.color( 'rgb(180, 200, 255)' );
+		this.attr( { telx: 1, tely: 1 });
+	},
+
+	collect: function() {
+		Crafty.trigger('TeleportHit', this);
 	}
 });
 
@@ -32,7 +49,8 @@ Crafty.c('PlayerCharacter', {
 			.fourway(4)
 			.color( 'rgb(20, 75, 40)' )
 			.stopOnSolids()
-			.onHit('Village', this.visitVillage);
+			.onHit('Village', this.visitVillage)
+			.onHit('Teleport', this.teleport);
 	},
 
 	stopOnSolids: function() {
@@ -51,6 +69,11 @@ Crafty.c('PlayerCharacter', {
 	visitVillage: function(data) {
 		village = data[0].obj;
 		village.collect();
+	},
+
+	teleport: function(data) {
+		teleport = data[0].obj;
+		this.to( teleport.telx, teleport.tely );
 	}
 });
 

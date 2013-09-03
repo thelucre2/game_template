@@ -1,8 +1,8 @@
 Game = {
 	// grid size and tile size
 	mapGrid: {
-		width: 24,
-		height: 16,
+		width: 40,
+		height: 40,
 		tile: {
 			width: 16,
 			height: 16
@@ -23,10 +23,11 @@ Game = {
   start: function() {
     // Start crafty and set a background color so that we can see it's working
     Crafty.init(Game.width(), Game.height());
+    Crafty.viewport.init(640,480);
     Crafty.background( 'rgb(249, 223, 125)' );
 
     // start the scene (for event emitters?)
     Crafty.scene('Game');
-
+    //Crafty.viewport.scale(2);
   }
 }

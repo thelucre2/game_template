@@ -1,5 +1,7 @@
 Crafty.scene('Game', function() {
 
+  Crafty.viewport.scale(2);
+  
 	// set up occupied tiles space
 	this.occupied = new Array(Game.mapGrid.width);
 	for (var i = 0; i < Game.mapGrid.width; i++) {
@@ -11,6 +13,9 @@ Crafty.scene('Game', function() {
 
 	// setup the player
   this.player = Crafty.e('PlayerCharacter').at(5,5);
+
+  Crafty.viewport.follow(this.player);
+
   this.occupied[this.player.at().x][this.player.at().y] = true;
 
   // terrain actors
@@ -36,6 +41,11 @@ Crafty.scene('Game', function() {
       }
     }
   }
+
+  this.player.to(10,2);
+  this.teleport = Crafty.e('Teleport').at(5,5);
+  this.teleport
+    .attr( { telx: 22, tely: 14 });
 
   this.showVictory = this.bind('VillageVisited', function() {
   	if(!Crafty('Village').length) {
