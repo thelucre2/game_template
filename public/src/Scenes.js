@@ -1,5 +1,6 @@
 Crafty.scene('Game', function() {
-
+  self = this;
+  self.player = null;
   //Crafty.viewport.scale(2);
 
 	// set up occupied tiles space
@@ -11,47 +12,53 @@ Crafty.scene('Game', function() {
     }
   }
 
-	// setup the player
-  this.player = Crafty.e('PlayerCharacter').at(5,5);
+  map = Crafty.e("TiledLevel").tiledLevel('/assets/maps/island.json');
+  map.bind("TiledLevelLoaded", function() {
+    // setup the player
+    self.player = Crafty.e('PlayerCharacter').at(5,5);
 
-  Crafty.viewport.follow(this.player);
+    Crafty.viewport.follow(self.player);
 
-  this.occupied[this.player.at().x][this.player.at().y] = true;
+    self.occupied[self.player.at().x][self.player.at().y] = true;
 
-  // terrain actors
-  var maxVillages = 5;
-  for (var x = 0; x < Game.mapGrid.width; x++) {
-    for (var y = 0; y < Game.mapGrid.height; y++) {
-    	var atEdge = x == 0 || x == Game.mapGrid.width - 1 ||
-    			y ==0 || y == Game.mapGrid.height - 1;
+    // terrain actors
+    var maxVillages = 5;
+    for (var x = 0; x < Game.mapGrid.width; x++) {
+      for (var y = 0; y < Game.mapGrid.height; y++) {
+        var atEdge = x == 0 || x == Game.mapGrid.width - 1 ||
+            y ==0 || y == Game.mapGrid.height - 1;
 
-    	if(atEdge) {
-    		// set tree
-    		Crafty.e('Tree').at(x,y);
-    		this.occupied[x][y] = true;
-    	} else if(Math.random() < 0.06
-    						&& !this.occupied[x][y]) {
-    		// place a bush
-    		Crafty.e('Bush').at(x,y);
-    	} else if (Math.random() < 0.02 
-    						 && Crafty('Village').length <= maxVillages
-    						 && !this.occupied[x][y]) {
-        Crafty.e('Village').at(x, y);
+        if(atEdge) {
+          // set tree
+          Crafty.e('Tree').at(x,y);
+          self.occupied[x][y] = true;
+        } else if(Math.random() < 0.06
+                  && !self.occupied[x][y]) {
+          // place a bush
+          Crafty.e('Bush').at(x,y);
+        } else if (Math.random() < 0.02 
+                   && Crafty('Village').length <= maxVillages
+                   && !self.occupied[x][y]) {
+          Crafty.e('Village').at(x, y);
 
+        }
       }
     }
-  }
 
-  this.player.to(10,2);
-  this.teleport = Crafty.e('Teleport').at(5,5);
-  this.teleport
-    .attr( { telx: 22, tely: 14 });
+    self.player.to(10,2);
+    self.teleport = Crafty.e('Teleport').at(5,5);
+    self.teleport
+      .attr( { telx: 22, tely: 14 });
 
-  this.showVictory = this.bind('VillageVisited', function() {
-  	if(!Crafty('Village').length) {
-  		Crafty.scene('Victory');
-  	}
+    self.showVictory = self.bind('VillageVisited', function() {
+      if(!Crafty('Village').length) {
+        Crafty.scene('Victory');
+      }
+    });
+
   });
+
+	
 }, function() {
 	this.unbind('VillageVisited', this.showVictory);
 });
